@@ -10,7 +10,7 @@ project(agarioplaybot)
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-add_executable (cmaking_cybercell "agarioplaybot.cpp" "agarioplaybot.h")
+add_executable (agarioplaybot "agarioplaybot.cpp" "agarioplaybot.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET agarioplaybot PROPERTY CXX_STANDARD 20)
