@@ -1,0 +1,39 @@
+name: Build with CMake and OpenCV on Windows
+
+on:
+  push:       # trigger on any push to any branch
+  workflow_dispatch:  # manual trigger
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install OpenCV
+      run: choco install opencv --package-parameters '/Environment'
+
+    - name: Check OPENCV_DIR
+      shell: cmd
+      run:
+       ls "C:\tools\opencv\build"
+
+
+      
+    - name: Configure CMake
+      run: cmake -B ${{ github.workspace }}\build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DOpenCV_DIR="C:\tools\opencv\build"
+      
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
+    - name: Run executable
+      shell: pwsh
+      run: '& "${{ github.workspace }}\build\${{ env.BUILD_TYPE }}\agarioplaybot.exe"'
+      
